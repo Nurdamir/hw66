@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
-import {ApiMeal} from "../../types";
 import ButtonSpinner from "../Spinner/ButtonSpinner";
-import axiosApi from "../../axiosApi";
-import {useNavigate} from "react-router-dom";
+import {ApiMeal} from "../../types";
 
 interface Props {
   onSubmit: (meal: ApiMeal) => void;
@@ -23,8 +21,6 @@ const MealForm: React.FC<Props> = ({
  isEdit = false,
  isLoading= false
 }) => {
-  const navigate = useNavigate();
-
   const [meal, setMeal] = useState<ApiMeal>(existingMeal);
 
   const onMealChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -37,12 +33,12 @@ const MealForm: React.FC<Props> = ({
     onSubmit({
       ...meal,
     })
-  }
+    setMeal({calories: '', description: '', schedule: '',});
+  };
 
   return (
     <form onSubmit={onFormSubmit}>
       <div className="form-group">
-        {/*<label htmlFor="">Description</label>*/}
         <select
           required
           name="schedule"
@@ -61,6 +57,7 @@ const MealForm: React.FC<Props> = ({
       <div className="form-group">
         <label htmlFor="description">Description</label>
         <textarea
+          required
           id="description" name="description"
           className="form-control"
           value={meal.description}
@@ -71,6 +68,7 @@ const MealForm: React.FC<Props> = ({
       <div className="form-group">
         <label htmlFor="calories">Calories</label>
         <input
+          required
           type="number"
           name="calories"
           className="form-control"
@@ -79,7 +77,7 @@ const MealForm: React.FC<Props> = ({
         />
       </div>
 
-      <button type="submit" disabled={isLoading} className="btn btn-primary">
+      <button type="submit" disabled={isLoading} className="btn btn-primary mt-2">
         {isLoading && <ButtonSpinner/>}
         {isEdit ? 'Update' : 'Create'}
       </button>

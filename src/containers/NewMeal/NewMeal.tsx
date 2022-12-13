@@ -13,10 +13,11 @@ const NewMeal = () => {
       setCreating(true);
       await axiosApi.post('/meals.json', meal);
       navigate('/');
+    } catch (e) {
+      console.error(e)
     } finally {
       setCreating(false);
     }
-
   };
 
   return (

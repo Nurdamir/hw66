@@ -1,18 +1,26 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {useNavigate, useParams} from "react-router-dom";
-import {ApiMeal} from "../../types";
+import {useParams} from "react-router-dom";
 import axiosApi from "../../axiosApi";
 import MealForm from "../../components/MealForm/MealForm";
+import Spinner from "../../components/Spinner/Spinner";
+import {ApiMeal} from "../../types";
 
 const EditMeal = () => {
   const {id} = useParams();
-  const navigate = useNavigate();
   const [meal, setMeal] = useState<ApiMeal | null>(null);
+  const [oneMealLoading, setOneMealLoading] = useState(false)
   const [updating, setUpdating] = useState(false);
 
   const fetchOneMeal = useCallback(async () => {
-    const mealResponse = await axiosApi.get<ApiMeal>('/meals/' + id + '.json');
-    setMeal(mealResponse.data);
+    try {
+      setOneMealLoading(true);
+      const mealResponse = await axiosApi.get<ApiMeal>('/meals/' + id + '.json');
+      setMeal(mealResponse.data);
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setOneMealLoading(false);
+    }
   }, [id]);
 
   useEffect(() => {
@@ -23,21 +31,17 @@ const EditMeal = () => {
     try {
       setUpdating(true);
       await axiosApi.put('/meals/' + id + '.json', meal);
-      navigate('/');
+    } catch (e) {
+      console.error(e)
     } finally {
       setUpdating(false);
     }
-
   };
-
-  // const existingMeal = meal && {
-  //   ...meal,
-  // };
 
   return (
     <div className="row mt-2">
       <div className="col">
-        {meal && (
+        {oneMealLoading ? <Spinner/> : meal && (
           <MealForm
             onSubmit={updateDish}
             existingMeal={meal}
