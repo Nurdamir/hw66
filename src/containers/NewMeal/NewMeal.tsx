@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {ApiMeal} from "../../types";
 import {useNavigate} from "react-router-dom";
 import axiosApi from "../../axiosApi";
 import MealForm from "../../components/MealForm/MealForm";
+import {ApiMeal} from "../../types";
 
 const NewMeal = () => {
   const navigate = useNavigate();
@@ -21,8 +21,8 @@ const NewMeal = () => {
   };
 
   return (
-    <div className="row mt-2">
-      <div className="col">
+    <div className="row mt-2 d-flex justify-content-center">
+      <div className="d-flex justify-content-center w-75">
         <MealForm onSubmit={createMeal} isLoading={creating}/>
       </div>
     </div>

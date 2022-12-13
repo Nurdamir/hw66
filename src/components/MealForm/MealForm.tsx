@@ -5,7 +5,6 @@ import {ApiMeal} from "../../types";
 interface Props {
   onSubmit: (meal: ApiMeal) => void;
   existingMeal?: ApiMeal;
-  isEdit?: boolean;
   isLoading?: boolean;
 }
 
@@ -16,11 +15,10 @@ const initialState: ApiMeal = {
 };
 
 const MealForm: React.FC<Props> = ({
- onSubmit,
- existingMeal= initialState,
- isEdit = false,
- isLoading= false
-}) => {
+  onSubmit,
+  existingMeal= initialState,
+  isLoading= false
+ }) => {
   const [meal, setMeal] = useState<ApiMeal>(existingMeal);
 
   const onMealChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -32,17 +30,21 @@ const MealForm: React.FC<Props> = ({
     e.preventDefault();
     onSubmit({
       ...meal,
-    })
+    });
     setMeal({calories: '', description: '', schedule: '',});
   };
 
   return (
-    <form onSubmit={onFormSubmit}>
+    <form onSubmit={onFormSubmit} className="w-75">
       <div className="form-group">
+        <label
+          htmlFor="schedule"
+          className="fw-bold fs-4"
+        >Time having meal!</label>
         <select
           required
           name="schedule"
-          className="form-control"
+          className="form-control mb-2"
           value={meal.schedule}
           onChange={onMealChange}
         >
@@ -52,34 +54,35 @@ const MealForm: React.FC<Props> = ({
           <option value="lunch">Lunch</option>
           <option value="dinner">Dinner</option>
         </select>
-      </div>
 
-      <div className="form-group">
-        <label htmlFor="description">Description</label>
+        <label
+          htmlFor="description"
+          className="fw-bold fs-4"
+        >Description</label>
         <textarea
           required
           id="description" name="description"
-          className="form-control"
+          className="form-control mb-2"
           value={meal.description}
           onChange={onMealChange}
         />
-      </div>
 
-      <div className="form-group">
-        <label htmlFor="calories">Calories</label>
+        <label
+          htmlFor="calories"
+          className="fw-bold fs-4"
+        >Calories</label>
         <input
           required
           type="number"
           name="calories"
-          className="form-control"
+          className="form-control mb-2"
           value={meal.calories}
           onChange={onMealChange}
         />
       </div>
-
-      <button type="submit" disabled={isLoading} className="btn btn-primary mt-2">
+      <button type="submit" disabled={isLoading} className="btn btn-primary mt-2 fs-5">
         {isLoading && <ButtonSpinner/>}
-        {isEdit ? 'Update' : 'Create'}
+        Save
       </button>
     </form>
   );

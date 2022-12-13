@@ -39,13 +39,12 @@ const EditMeal = () => {
   };
 
   return (
-    <div className="row mt-2">
-      <div className="col">
+    <div className="row mt-2 d-flex justify-content-center">
+      <div className="d-flex justify-content-center w-75">
         {oneMealLoading ? <Spinner/> : meal && (
           <MealForm
             onSubmit={updateDish}
             existingMeal={meal}
-            isEdit
             isLoading={updating}
           />
         )}

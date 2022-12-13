@@ -64,11 +64,12 @@ const Home = () => {
   };
 
   return (
-    <div className="row mt-2">
-      <div className="mb-2">Total: {calculateKCal()} KCal
-        <Link className="btn btn-success ms-2" to={'/new-meal'}>Add new meal</Link>
+    <div className="row mt-2 d-flex justify-content-center">
+      <div className="mb-2 d-flex justify-content-center align-items-center fs-3">Total:
+        <strong className="mx-2">{calculateKCal()}</strong>
+        KCal
+        <Link className="btn btn-outline-dark ms-2 fs-4" to={'/new-meal'}>Add new meal</Link>
       </div>
-
       {loading ? <Spinner/> : (
         <div className="col-7">
           {meals.map(meal => {
